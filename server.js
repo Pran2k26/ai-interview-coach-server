@@ -3,10 +3,10 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const cors = require("cors");
-app.use(cors({
-  origin: process.env.CLIENT_URL,
-  credentials: true
-}));
+// app.use(cors({
+//   origin: process.env.CLIENT_URL,
+//   credentials: true
+// }));
 const mongoose = require("mongoose");
 
 
@@ -20,6 +20,8 @@ const interviewRoutes = require("./routes/interviewRoutes");
 const aiRoutes = require("./routes/aiRoutes");
 const roadmapRoutes = require("./routes/roadmapRoutes");
 const resumeRoutes = require("./routes/resumeRoutes");
+const matchRoutes = require("./routes/matchRoutes");
+
 
 // API Routes
 app.use("/api/auth", authRoutes);
@@ -27,6 +29,7 @@ app.use("/api/interview", interviewRoutes);
 app.use("/api/ai", aiRoutes);
 app.use("/api/roadmap", roadmapRoutes);
 app.use("/api/resume", resumeRoutes);
+app.use("/api/match", matchRoutes);
 
 // Home Route
 app.get("/", (req, res) => {

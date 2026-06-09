@@ -186,11 +186,132 @@ ${resumeText}
   return completion.choices[0].message.content;
 };
 
+//job description and resume matchResume
+// const matchResumeAI = async (
+//   resumeText,
+//   jobDescription
+// ) => {
 
+//   const completion =
+//     await groq.chat.completions.create({
+
+//       messages: [
+
+//         {
+
+//           role: "user",
+
+//           content: `
+// You are an ATS Resume Expert.
+
+// Compare the Resume and Job Description.
+
+// Return ONLY valid JSON.
+
+// {
+// "matchScore":85,
+// "matchingSkills":[
+// "React",
+// "Node.js"
+// ],
+// "missingSkills":[
+// "Docker",
+// "AWS"
+// ],
+// "suggestions":[
+// "Add Docker project",
+// "Mention REST APIs"
+// ],
+// "summary":"Overall resume is good but needs cloud skills."
+// }
+
+// Resume:
+
+// ${resumeText}
+
+// Job Description:
+
+// ${jobDescription}
+// `,
+//         },
+
+//       ],
+
+//       model: "llama-3.3-70b-versatile",
+
+//     });
+
+//   return completion.choices[0].message.content;
+
+// };
+const matchResumeAI = async (
+  resumeText,
+  jobDescription
+) => {
+
+  const completion =
+    await groq.chat.completions.create({
+
+      messages: [
+        {
+          role: "user",
+
+          content: `
+You are an ATS Resume Expert.
+
+Compare the resume with the job description.
+
+Return ONLY valid JSON.
+
+Do not use markdown.
+
+Do not wrap the response inside \`\`\`json.
+
+Do not write explanations.
+
+Return exactly in this format:
+
+{
+  "matchScore": 90,
+  "matchingSkills": [
+    "React",
+    "Node.js",
+    "Express",
+    "MongoDB"
+  ],
+  "missingSkills": [
+    "Docker",
+    "AWS"
+  ],
+  "suggestions": [
+    "Add Docker project",
+    "Mention AWS deployment",
+    "Highlight REST API experience"
+  ],
+  "summary": "Your resume matches most requirements but lacks cloud technologies."
+}
+
+Resume:
+
+${resumeText}
+
+Job Description:
+
+${jobDescription}
+`,
+        },
+      ],
+
+      model: "llama-3.3-70b-versatile",
+    });
+
+  return completion.choices[0].message.content;
+};
 
 module.exports = {
   generateQuestions,
   evaluateAnswer,
   generateRoadmapAI,
   analyzeResumeAI,
+  matchResumeAI,
 };
