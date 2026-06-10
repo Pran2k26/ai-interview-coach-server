@@ -10,7 +10,7 @@ const generateQuestions = async (role, level) => {
     messages: [
       {
         role: "user",
-        content: `Generate exactly 5 interview questions for a ${level} ${role}. Return only the questions, one per line.`
+        content: `Generate exactly 2 interview questions for a ${level} ${role}. Return only the questions, one per line.`
       }
     ],
     model: "llama-3.3-70b-versatile",
