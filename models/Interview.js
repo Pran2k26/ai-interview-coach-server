@@ -7,6 +7,7 @@ const interviewSchema = new mongoose.Schema(
       ref: "User",
     },
 
+ 
     role: {
       type: String,
       required: true,

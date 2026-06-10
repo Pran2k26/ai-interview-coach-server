@@ -1,4 +1,5 @@
 const Interview = require("../models/Interview");
+const InterviewHistory = require("../models/InterviewHistory");
 
 const {
   generateQuestions,
@@ -17,6 +18,7 @@ const createInterview = async (req, res) => {
 
     const interview =
       await Interview.create({
+        userId: req.user.id,
         role,
         level,
         questions: aiQuestions,
@@ -222,9 +224,49 @@ const evaluateInterview = async (req, res) => {
   }
 };
 
+//save InterviewHistory
+
+const saveInterview = async (req, res) => {
+  try {
+    const userId = req.user.id; // from JWT middleware
+
+    const { role, level, questions, totalScore, duration } = req.body;
+
+    const interview = await InterviewHistory.create({
+      userId,
+      role,
+      level,
+      questions,
+      totalScore,
+      duration,
+    });
+
+    res.status(201).json(interview);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+//get interview InterviewHistory
+const getInterviewHistory = async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    const history = await InterviewHistory.find({ userId })
+      .sort({ createdAt: -1 });
+
+    res.json(history);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+
 module.exports = {
   createInterview,
   getInterview,
   saveAnswers,
   evaluateInterview,
+  saveInterview,
+  getInterviewHistory,
 };

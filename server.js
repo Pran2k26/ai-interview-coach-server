@@ -21,7 +21,8 @@ const aiRoutes = require("./routes/aiRoutes");
 const roadmapRoutes = require("./routes/roadmapRoutes");
 const resumeRoutes = require("./routes/resumeRoutes");
 const matchRoutes = require("./routes/matchRoutes");
-
+const ragRoutes = require("./routes/ragRoutes");
+const ragEvaluateRoutes = require("./routes/ragEvaluateRoutes");
 
 // API Routes
 app.use("/api/auth", authRoutes);
@@ -30,11 +31,17 @@ app.use("/api/ai", aiRoutes);
 app.use("/api/roadmap", roadmapRoutes);
 app.use("/api/resume", resumeRoutes);
 app.use("/api/match", matchRoutes);
+app.use("/api/rag", ragRoutes);
+app.use(
+  "/api/rag/evaluate",
+  ragEvaluateRoutes
+);
 
 // Home Route
 app.get("/", (req, res) => {
   res.send("Backend Working");
 });
+
 
 // MongoDB Connection
 //console.log("MONGO_URI =", process.env.MONGO_URI);

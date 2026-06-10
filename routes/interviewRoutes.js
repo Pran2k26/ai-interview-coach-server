@@ -7,7 +7,7 @@ const protect = require(
 );
 
 const {
-  createInterview,getInterview, saveAnswers, evaluateInterview
+  createInterview,getInterview, saveAnswers, evaluateInterview,saveInterview, getInterviewHistory
 } = require(
   "../controllers/interviewController"
 );
@@ -18,18 +18,21 @@ router.post(
   createInterview
 );
 
+
+router.post(
+    "/:id/answers",
+    protect,
+    saveAnswers
+);
+
+router.post(
+    "/:id/evaluate",
+    protect,
+    evaluateInterview
+);
+
+router.get("/history/all", protect, getInterviewHistory);
 router.get("/:id", protect, getInterview);
 
-router.post(
-  "/:id/answers",
-  protect,
-  saveAnswers
-);
-
-router.post(
-  "/:id/evaluate",
-  protect,
-  evaluateInterview
-);
 
 module.exports = router;
