@@ -1,68 +1,3 @@
-// const chunkText = require("../utils/chunkText");
-
-// const getEmbedding = require("../utils/embedding");
-
-// let vectorStore = [];
-
-// async function storeResume(text) {
-
-//   vectorStore = [];
-
-//   const chunks = chunkText(text);
-
-//   for (const chunk of chunks) {
-
-//     const embedding = await getEmbedding(chunk);
-
-//     vectorStore.push({
-
-//       chunk,
-
-//       embedding,
-
-//     });
-
-//   }
-
-//   return true;
-
-// }
-
-// //similarity
-
-// const similarity = require("cosine-similarity");
-
-// async function retrieve(query) {
-
-//   const queryEmbedding =
-//     await getEmbedding(query);
-
-//   const scores = vectorStore.map(item => ({
-
-//     chunk: item.chunk,
-
-//     score: similarity(
-//       queryEmbedding,
-//       item.embedding
-//     ),
-
-//   }));
-
-//   scores.sort((a, b) => b.score - a.score);
-
-//   return scores.slice(0, 3);
-
-// }
-
-// module.exports = {
-
-//   storeResume,
-
-//   vectorStore,
-
-// };
-
-
 const chunkText = require("../utils/chunkText");
 const getEmbedding = require("../utils/embedding");
 const similarity = require("cosine-similarity");
@@ -146,7 +81,7 @@ Below is the candidate's resume context:
 
 ${context}
 
-Generate exactly 5 personalized interview questions based ONLY on the resume.
+Generate exactly 2 personalized interview questions based ONLY on the resume.
 
 Focus on:
 - Projects

@@ -11,6 +11,13 @@ const interviewHistorySchema = new mongoose.Schema(
     role: String,
     level: String,
 
+    // NEW
+    interviewType: {
+      type: String,
+      enum: ["AI", "RAG"],
+      default: "AI",
+    },
+
     questions: [
       {
         question: String,
@@ -25,9 +32,12 @@ const interviewHistorySchema = new mongoose.Schema(
       default: 0,
     },
 
-    duration: Number, // in minutes
+    duration: Number,
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("InterviewHistory", interviewHistorySchema);
+module.exports = mongoose.model(
+  "InterviewHistory",
+  interviewHistorySchema
+);

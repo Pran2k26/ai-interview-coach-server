@@ -124,105 +124,6 @@ const saveAnswers = async (req, res) => {
 
 // Evaluate Interview
 
-// const evaluateInterview =
-//   async (req, res) => {
-//     try {
-//       const interview =
-//         await Interview.findById(
-//           req.params.id
-//         );
-
-//         console.log("ANSWERS =", interview.answers);
-//         console.log("EVALUATE ID =", req.params.id);
-
-//       if (!interview) {
-//         return res
-//           .status(404)
-//           .json({
-//             message:
-//               "Interview not found",
-//           });
-//       }
-
-//       const results = [];
-
-//       for (
-//         let i = 0;
-//         i <
-//         interview.answers.length;
-//         i++
-//       ) {
-//         const feedback =
-//           await evaluateAnswer(
-//             interview.answers[i]
-//               .question,
-//             interview.answers[i]
-//               .answer
-//           );
-
-//         results.push({
-//           question:
-//             interview.answers[i]
-//               .question,
-//           answer:
-//             interview.answers[i]
-//               .answer,
-//           feedback,
-//         });
-//       }
-
-//       res.status(200).json(
-//         results
-//       );
-
-//     } catch (error) {
-//       console.log(error);
-
-//       res.status(500).json({
-//         message: "Server Error",
-//       });
-//     }
-//   };
-// const evaluateInterview = async (req, res) => {
-//   try {
-//     const interview = await Interview.findById(req.params.id);
-
-//     if (!interview) {
-//       return res.status(404).json({ message: "Interview not found" });
-//     }
-
-//     if (!interview.answers || interview.answers.length === 0) {
-//       return res.status(400).json({
-//         message: "No answers found. Please save answers first.",
-//       });
-//     }
-
-//     const results = [];
-
-//     for (let i = 0; i < interview.answers.length; i++) {
-//       const feedback = await evaluateAnswer(
-//         interview.answers[i].question,
-//         interview.answers[i].answer
-//       );
-
-//       results.push({
-//         question: interview.answers[i].question,
-//         answer: interview.answers[i].answer,
-//         feedback,
-//       });
-
-//       // ✅ SAVE BACK TO DB (IMPORTANT UPGRADE)
-//       interview.answers[i].feedback = feedback;
-//     }
-
-//     await interview.save();
-
-//     return res.status(200).json(results);
-//   } catch (error) {
-//     console.log(error);
-//     return res.status(500).json({ message: "Server Error" });
-//   }
-// };
 
 const evaluateInterview = async (req, res) => {
   try {
@@ -276,20 +177,26 @@ totalScore += score;
     await interview.save();
 
     // 🔥 SAVE HISTORY HERE (IMPORTANT FIX)
-    await InterviewHistory.create({
-      userId: interview.userId,   // IMPORTANT FIX
-      role: interview.role,
-       interviewId: interview._id,  
-      level: interview.level,
-        questions: interview.answers.map((item) => ({
+
+await InterviewHistory.create({
+  userId: interview.userId,
+  interviewId: interview._id,
+
+  role: interview.role,
+  level: interview.level,
+
+  type: "AI Interview",
+
+  questions: interview.answers.map((item) => ({
     question: item.question,
     userAnswer: item.answer,
     aiFeedback: item.feedback,
     score: item.score,
   })),
-      totalScore,
-      duration: 0,
-    });
+
+  totalScore,
+  duration: 0,
+});
 
     return res.status(200).json(results);
   } catch (error) {
